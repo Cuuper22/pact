@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Flame centred in the 108x108 adaptive safe zone, ember gradient. -->
+    <path
+        android:pathData="M54,24c0,0 -7,13 -13,22c-5.5,7.6 -10,14.5 -10,24.2C31,86 41,96 54,96s23,-10 23,-25.8c0,-10.4 -6.5,-18 -12,-25.5C59,37.5 56,30 54,24z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="54" android:startY="24"
+                android:endX="54" android:endY="96">
+                <item android:offset="0.0" android:color="#FFF2C293" />
+                <item android:offset="0.5" android:color="#FFE89B5B" />
+                <item android:offset="1.0" android:color="#FFB5764A" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="#FFFFF6EC"
+        android:pathData="M54,58c0,0 -3.5,6 -6,10c-2,3.2 -3,5.5 -3,8.5C45,82 49,86 54,86s9,-4 9,-9.5c0,-3.5 -2.5,-6.5 -5,-9.5C56,64.5 55,61 54,58z" />
+</vector>

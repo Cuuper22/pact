@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pact</string>
+
+    <!-- Notification channels -->
+    <string name="notif_channel_asks">pact_asks</string>
+    <string name="notif_channel_asks_name">Table asks</string>
+    <string name="notif_channel_asks_desc">When someone asks the table to unlock.</string>
+    <string name="notif_channel_shield_name">Shield</string>
+    <string name="notif_channel_shield_desc">Keeps the pact shield running while a pact is locked.</string>
+
+    <!-- Notification actions -->
+    <string name="action_allow">Allow</string>
+    <string name="action_not_now">Not now</string>
+
+    <!-- Shield foreground notification -->
+    <string name="shield_notif_title">Pact is locked</string>
+    <string name="shield_notif_text">The table is present. Tap to open Pact.</string>
+</resources>
