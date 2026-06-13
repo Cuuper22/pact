@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pact — session simulator</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1><span class="dot" aria-hidden="true"></span> Pact · session simulator</h1>
+    <p class="note"><strong>Consent engine prototype.</strong> Three devices sharing one pact. The native phone-shielding (iOS Screen Time, Android overlay) is out of scope here; this exercises the session and the unanimous-unlock logic, which is the platform-independent core.</p>
+  </div>
+
+  <div class="stage" id="stage"></div>
+
+  <div class="rail" aria-label="Simulator controls">
+    <span class="label">Time</span>
+    <button data-tick="60000">+1 min</button>
+    <button data-tick="300000">+5 min</button>
+    <button data-tick="3600000">+1 hour</button>
+    <span class="label" style="margin-left:0.5rem">Session</span>
+    <button data-reset>Reset</button>
+    <span class="clock" id="clock">0:00</span>
+  </div>
+</div>
+
+<script type="module" src="ui.js"></script>
+</body>
+</html>
