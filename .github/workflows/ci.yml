@@ -1,0 +1,78 @@
+name: CI
+
+# Builds and tests every component. The backend runs anywhere; the Android and
+# iOS jobs run on runners that can reach Google's Maven repo and the Apple
+# toolchain, which the development sandbox cannot.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  backend:
+    name: Engine + relay (Node)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - name: Build engine
+        run: npm run build -w @pact/engine
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test engine
+        run: npm run test -w @pact/engine
+      - name: Test relay
+        run: npm run test -w @pact/relay
+
+  android:
+    name: Android app (assembleDebug)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+      - name: Grant execute on gradlew
+        run: chmod +x ./gradlew
+      - name: Assemble debug APK
+        run: ./gradlew --no-daemon assembleDebug
+      - name: Unit tests
+        run: ./gradlew --no-daemon testDebugUnitTest
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: pact-debug-apk
+          path: apps/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
+
+  ios:
+    name: iOS app (build, no signing)
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: apps/ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build for simulator (no code signing)
+        run: |
+          xcodebuild \
+            -project Pact.xcodeproj \
+            -scheme Pact \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build

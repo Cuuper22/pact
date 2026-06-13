@@ -2,3 +2,35 @@
 Thumbs.db
 desktop.ini
 *.log
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Android
+apps/android/.gradle/
+apps/android/build/
+apps/android/app/build/
+apps/android/local.properties
+apps/android/.idea/
+apps/android/captures/
+*.apk
+*.aab
+
+# iOS
+apps/ios/*.xcodeproj/
+apps/ios/*.xcworkspace/
+apps/ios/DerivedData/
+apps/ios/build/
+apps/ios/.build/
+*.xcuserstate
+
+# Secrets — never commit push credentials or signing material
+.env
+*.p8
+*.p12
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
