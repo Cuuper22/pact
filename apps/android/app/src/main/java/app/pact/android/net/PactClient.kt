@@ -93,7 +93,7 @@ class PactClient(
             pushToken = pushToken,
             platform = if (pushToken != null) Platform.ANDROID else null,
         )
-        return post("/pacts", json.encodeToString(body))
+        return post("/pacts", json.encodeToString(body), SeatCredentials.serializer())
     }
 
     /** POST /pacts/:code/join — join by table code. */
@@ -108,7 +108,7 @@ class PactClient(
             platform = if (pushToken != null) Platform.ANDROID else null,
         )
         val path = "/pacts/${code.trim().uppercase()}/join"
-        return post(path, json.encodeToString(body))
+        return post(path, json.encodeToString(body), SeatCredentials.serializer())
     }
 
     /**
@@ -122,11 +122,15 @@ class PactClient(
         action: ClientAction,
     ): SeatView? {
         val body = ActionBody(seatId, token, action)
-        val resp: ActionResponse = post("/pacts/$pactId/actions", json.encodeToString(body))
+        val resp = post("/pacts/$pactId/actions", json.encodeToString(body), ActionResponse.serializer())
         return resp.view
     }
 
-    private suspend inline fun <reified T> post(path: String, jsonBody: String): T =
+    private suspend fun <T> post(
+        path: String,
+        jsonBody: String,
+        deserializer: kotlinx.serialization.DeserializationStrategy<T>,
+    ): T =
         suspendCancellableCoroutine { cont ->
             val req = Request.Builder()
                 .url(baseUrl.trimEnd('/') + path)
@@ -149,7 +153,7 @@ class PactClient(
                             return
                         }
                         try {
-                            cont.resume(json.decodeFromString<T>(text))
+                            cont.resume(json.decodeFromString(deserializer, text))
                         } catch (t: Throwable) {
                             cont.resumeWithException(t)
                         }
@@ -180,7 +184,7 @@ class PactClient(
     /** Send a client action over the socket. No-op (returns false) if not open. */
     fun send(action: ClientAction): Boolean {
         val ws = webSocket ?: return false
-        return ws.send(json.encodeToString<ClientAction>(action))
+        return ws.send(json.encodeToString(ClientAction.serializer(), action))
     }
 
     fun ask(reason: String?) = send(ClientAction.AskAction(reason?.ifBlank { null }))
@@ -220,7 +224,8 @@ class PactClient(
                     webSocket = ws
                     _status.value = WsStatus.Open
                     // Optional re-sync hello, harmless if the relay ignores it.
-                    ws.send(json.encodeToString<ClientAction>(
+                    ws.send(json.encodeToString(
+                        ClientAction.serializer(),
                         ClientAction.Hello(credentials.seatId, credentials.token),
                     ))
                 }
