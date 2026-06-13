@@ -50,15 +50,21 @@ npm test          # engine (22 tests) + relay (7 integration tests)
 npm run dev       # run the relay locally on :8787
 ```
 
-The native apps are built on CI (`.github/workflows/ci.yml`) because they need
+The native apps are built by CI (`.github/workflows/ci.yml`) because they need
 toolchains a plain Linux box doesn't have — the Android job needs Google's Maven
-repo, the iOS job needs macOS + Xcode. See each app's `README.md` for local
-build instructions and the store-submission steps that require human accounts.
+repo, the iOS job needs macOS + Xcode. **Enable GitHub Actions on the repo**
+(Settings → Actions → General → Allow all actions) for the workflow to run; the
+runners then compile `assembleDebug` (Android) and an unsigned simulator build
+(iOS). You can also build locally — see each app's `README.md` for build
+instructions and the store-submission steps that require human accounts.
 
 ## Status
 
-The engine and relay are complete and tested. Both native apps are complete
-source, built and verified on CI. What remains is intrinsically human and
+The engine and relay are complete and tested (29 passing tests, run locally).
+Both native apps are complete, reviewed source with reproducible build configs;
+they compile via the CI jobs once GitHub Actions is enabled on the repo (this
+build sandbox can't compile them — no macOS for iOS, and its network can't reach
+Google's Maven for Android). What remains is intrinsically human and
 account-bound, not code:
 
 - Apple's **Family Controls distribution entitlement** (the longest lead-time
