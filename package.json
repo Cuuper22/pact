@@ -1,0 +1,17 @@
+{
+  "name": "pact-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pact — phones down, everyone in. A shared, consent-gated phone lock for a table, iOS and Android, with an ephemeral relay.",
+  "type": "module",
+  "workspaces": ["packages/*", "server"],
+  "scripts": {
+    "build": "npm run build -w @pact/engine && npm run build -w @pact/relay",
+    "typecheck": "npm run typecheck -w @pact/engine && npm run typecheck -w @pact/relay",
+    "test": "npm run build -w @pact/engine && npm run test -w @pact/engine && npm run test -w @pact/relay",
+    "dev": "npm run dev -w @pact/relay"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

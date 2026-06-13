@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base app theme. Compose draws the real UI; this only sets window chrome.
+         Parented to a platform theme so no Material Components dependency is
+         required. Light variant; values-night provides the dark window. -->
+    <style name="Theme.Pact" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/pact_window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
